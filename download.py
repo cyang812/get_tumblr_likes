@@ -35,7 +35,8 @@ def download(url):
 	file_path = os.path.join(name)
 	if not os.path.isfile(file_path):
 		try:
-			r = requests.get(url,proxies=PROXIES)
+			r = requests.get(url,proxies=PROXIES) # use proxy
+			# r = requests.get(url) 			  # directly access
 			print('downloading ->',name)
 		except Exception as e:
 			pass
