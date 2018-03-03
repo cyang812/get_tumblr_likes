@@ -31,11 +31,15 @@ def get_filename(url):
 def download(url):
 
 	name = get_filename(url)
-	print('downloading ->',name)
 
 	file_path = os.path.join(name)
 	if not os.path.isfile(file_path):
-		r = requests.get(url,proxies=PROXIES)
+		try:
+			r = requests.get(url,proxies=PROXIES)
+			print('downloading ->',name)
+		except Exception as e:
+			pass
+
 		with open(name, "wb") as code:
 		   code.write(r.content)
 	else:
