@@ -25,4 +25,4 @@
 	r = requests.get(url) 			  # directly access
     ```
 
-- 这个项目下载的是账户中的喜欢内容，因此需要进行认证。如果是下载某个账户发布的内容，可使用[tumblr-crawler](https://github.com/dixudx/tumblr-crawler),再次感谢 tumblr-crawler 项目
+- 这个项目下载的是账户中的喜欢内容，因此需要进行认证。如果是下载某个账户发布的内容，可使用[tumblr-crawler](https://github.com/dixudx/tumblr-crawler)，再次感谢 tumblr-crawler 项目
