@@ -2,9 +2,9 @@
 
 import json
 
-JSON_FIlE = 'test.json'
+JSON_FIlE = 'likes.json'
 
-with open(JSON_FIlE,'r',encoding="utf8") as load_f:
+with open(JSON_FIlE,'r',encoding="utf-8") as load_f:
 	load_dict = json.load(load_f)
 	# print(load_dict)		
 

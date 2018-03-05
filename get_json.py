@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 
 from requests_oauthlib import OAuth1Session
+from requests_oauthlib import OAuth1
+import requests
+import yaml
+import os
+import json
 
-PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+# PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
 
-consumer_key = 'K4NFmrmpF3DY7JBvvCOIJDG36N5DUokCMFPU9e1OivvUzJ4kdD'
-consumer_secret = 'KLcEY6A2oVb6qS6xaLg1oe1FSsCjXw3iLDTukqKMnSw0YCmc6e'
+consumer_key = 'your consumer_key'
+consumer_secret = 'your consumer_secret'
 
-def new_oauth():
+like_json = open("likes.json",'w',encoding='utf-8')
+
+def new_oauth(yaml_path):
 
 	print('Retrieve consumer key and consumer secret from http://www.tumblr.com/oauth/apps')
 
@@ -51,6 +58,43 @@ def new_oauth():
 	    'oauth_token_secret': oauth_tokens.get('oauth_token_secret')
 	}
 
+	yaml_file = open(yaml_path, 'w+')
+	yaml.dump(tokens, yaml_file, indent=2)
+	yaml_file.close()
+
+	return tokens
+
 if __name__ == '__main__':
 
-	new_oauth()
+	yaml_path = os.path.expanduser('~') + '/.tumblr'
+	print(yaml_path)
+
+	if not os.path.exists(yaml_path):
+	    tokens = new_oauth(yaml_path)
+	else:
+	    yaml_file = open(yaml_path, "r")
+	    tokens = yaml.safe_load(yaml_file)
+	    yaml_file.close()
+
+	oauth = OAuth1(
+            tokens['consumer_key'],
+        	tokens['consumer_secret'],
+        	tokens['oauth_token'],
+        	tokens['oauth_token_secret']
+        )
+
+	url = 'https://api.tumblr.com/v2/user/likes'
+
+	resp = requests.get(url, allow_redirects=False, auth=oauth)
+	print(resp)
+
+	try:
+		data = resp.json()
+	except ValueError:
+		data = {'meta': { 'status': 500, 'msg': 'Server Error'}, 'response': {"error": "Malformed JSON or HTML was returned."}}
+
+	if 200 <= data['meta']['status'] <= 399:
+	    # print(data['response'])
+	    json.dump(data,like_json)
+	else:
+	    print('error',data)
