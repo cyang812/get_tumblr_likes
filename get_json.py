@@ -6,11 +6,12 @@ import requests
 import yaml
 import os
 import json
+import urllib.parse
 
-# PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
 
-consumer_key = 'your consumer_key'
-consumer_secret = 'your consumer_secret'
+consumer_key = 'your ker'
+consumer_secret = 'your secret'
 
 like_json = open("likes.json",'w',encoding='utf-8')
 
@@ -62,6 +63,7 @@ def new_oauth(yaml_path):
 	yaml.dump(tokens, yaml_file, indent=2)
 	yaml_file.close()
 
+	print("oauth succ!\n")
 	return tokens
 
 if __name__ == '__main__':
@@ -83,9 +85,9 @@ if __name__ == '__main__':
         	tokens['oauth_token_secret']
         )
 
-	url = 'https://api.tumblr.com/v2/user/likes'
+	info_url = 'https://api.tumblr.com/v2/user/info'
 
-	resp = requests.get(url, allow_redirects=False, auth=oauth)
+	resp = requests.get(info_url, allow_redirects=False, auth=oauth)
 	print(resp)
 
 	try:
@@ -95,6 +97,35 @@ if __name__ == '__main__':
 
 	if 200 <= data['meta']['status'] <= 399:
 	    # print(data['response'])
-	    json.dump(data,like_json)
+	    like_item = data['response']['user']['likes']
+	    print('like_item = ',like_item)
+	    # json.dump(data,like_json)
 	else:
 	    print('error',data)
+
+	raw_url = 'https://api.tumblr.com/v2/user/likes?offset={0}'
+
+	loop_cnt = int(like_item/20) + 1
+	print('loop_cnt = ',loop_cnt)
+	offset = 0
+	for i in range(0,loop_cnt):
+		likes_url = raw_url.format(offset)
+
+		resp = requests.get(likes_url, allow_redirects=False, auth=oauth)
+		print(resp)
+
+		try:
+			data = resp.json()
+		except ValueError:
+			data = {'meta': { 'status': 500, 'msg': 'Server Error'}, 'response': {"error": "Malformed JSON or HTML was returned."}}
+
+		if 200 <= data['meta']['status'] <= 399:
+			# print(data['response'])
+			# print(data['response']['user']['likes'])
+			json.dump(data,like_json)
+		else:
+			print('error',data)
+
+		offset += 20  
+		like_json.write(u'\n');
+
