@@ -10,8 +10,8 @@ import urllib.parse
 
 PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
 
-consumer_key = 'your ker'
-consumer_secret = 'your secret'
+consumer_key = ''
+consumer_secret = ''
 
 like_json = open("likes.json",'w',encoding='utf-8')
 
@@ -25,7 +25,7 @@ def new_oauth(yaml_path):
 
 	# STEP 1: Obtain request token
 	oauth_session = OAuth1Session(consumer_key, client_secret=consumer_secret)
-	fetch_response = oauth_session.fetch_request_token(request_token_url)
+	fetch_response = oauth_session.fetch_request_token(request_token_url, proxies=PROXIES)
 	resource_owner_key = fetch_response.get('oauth_token')
 	resource_owner_secret = fetch_response.get('oauth_token_secret')
 	print("step 1 pass");
@@ -35,12 +35,15 @@ def new_oauth(yaml_path):
 
 	# Redirect to authentication page
 	print('\nPlease go here and authorize:\n{}'.format(full_authorize_url))
-	redirect_response = input('Allow then paste the full redirect URL here:\n')
+	redirect_response = input('Allow then paste the full redirect URL here:')
+	print(redirect_response)
 
 	# Retrieve oauth verifier
 	oauth_response = oauth_session.parse_authorization_response(redirect_response)
+	print(oauth_response)
 
 	verifier = oauth_response.get('oauth_verifier')
+	print(verifier)
 
 	# STEP 3: Request final access token
 	oauth_session = OAuth1Session(
@@ -50,7 +53,7 @@ def new_oauth(yaml_path):
 	    resource_owner_secret=resource_owner_secret,
 	    verifier=verifier
 	)
-	oauth_tokens = oauth_session.fetch_access_token(access_token_url)
+	oauth_tokens = oauth_session.fetch_access_token(access_token_url, proxies=PROXIES)
 
 	tokens = {
 	    'consumer_key': consumer_key,
@@ -72,7 +75,8 @@ if __name__ == '__main__':
 	print(yaml_path)
 
 	if not os.path.exists(yaml_path):
-	    tokens = new_oauth(yaml_path)
+		print("add a new oauth")
+		tokens = new_oauth(yaml_path)
 	else:
 	    yaml_file = open(yaml_path, "r")
 	    tokens = yaml.safe_load(yaml_file)
@@ -87,7 +91,7 @@ if __name__ == '__main__':
 
 	info_url = 'https://api.tumblr.com/v2/user/info'
 
-	resp = requests.get(info_url, allow_redirects=False, auth=oauth)
+	resp = requests.get(info_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
 	print(resp)
 
 	try:
@@ -111,7 +115,7 @@ if __name__ == '__main__':
 	for i in range(0,loop_cnt):
 		likes_url = raw_url.format(offset)
 
-		resp = requests.get(likes_url, allow_redirects=False, auth=oauth)
+		resp = requests.get(likes_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
 		print(resp)
 
 		try:
