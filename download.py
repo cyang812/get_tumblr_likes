@@ -6,7 +6,8 @@ import requests
 
 url_filename = 'url_list.txt'
 
-PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+# PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+PROXIES = {}
 
 def get_url():
 	with open(url_filename, "r") as f:

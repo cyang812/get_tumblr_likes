@@ -8,7 +8,8 @@ import os
 import json
 import urllib.parse
 
-PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+# PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+PROXIES = {}
 
 consumer_key = ''
 consumer_secret = ''
