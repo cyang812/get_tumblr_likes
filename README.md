@@ -19,7 +19,7 @@
 
 - 简单来说就是把大象装冰箱的三步：1 `python get_json.py` 2 `python json_parse.py` 3 `download.py`
 
-- `download_thread.py` 是多线程下载，理论上比 `download.py` 要快，因此第三部可以用 `download_thread.py` 下载
+- `download_thread.py` 是多线程下载，理论上比 `download.py` 要快，因此第三步可以用 `download_thread.py` 下载
 
 # 三、其他
 
