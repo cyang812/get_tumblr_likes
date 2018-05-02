@@ -3,6 +3,9 @@
 import os
 import urllib
 import requests
+import threading
+import queue
+import time
 
 url_filename = 'url_list.txt'
 
@@ -56,9 +59,41 @@ def chdir():
 		os.mkdir(target_folder)
 	os.chdir(target_folder)
 
-if __name__ == "__main__":
+def fetch_img_func(q):
+    while True:
+        try:
+            # 不阻塞的读取队列数据
+            url = q.get_nowait()
+            i = q.qsize()
+        except Exception as e:
+            print(e)
+            break;
+        print('Current Thread Name Runing %s ...' % threading.currentThread().name)
+        print('handle %s item... item url %s ' % (i, url))
+        download(url)
 
-	url_list = get_url()
+
+if __name__ == "__main__":
+	start = time.time()
+	q = queue.Queue()
+	url_lists = get_url()
+	for url_list in url_lists:
+	    q.put(url_list)
+
 	chdir()
-	for i in range(0,len(url_list)):
-		download(url_list[i])
+
+	t1 = threading.Thread(target=fetch_img_func, args=(q, ), name="child_thread_1")
+	t2 = threading.Thread(target=fetch_img_func, args=(q, ), name="child_thread_2")
+	t3 = threading.Thread(target=fetch_img_func, args=(q, ), name="child_thread_3")
+	t4 = threading.Thread(target=fetch_img_func, args=(q, ), name="child_thread_4")
+	t1.start()
+	t2.start()
+	t3.start()
+	t4.start()
+	t1.join()
+	t2.join()
+	t3.join()
+	t4.join()
+
+	end = time.time()
+	print('Done %s ' % (end-start))
