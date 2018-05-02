@@ -38,11 +38,11 @@ def download(url):
 		try:
 			r = requests.get(url,proxies=PROXIES) # use proxy
 			print('downloading ->',name)
-
+			
 			with open(name, "wb") as code:
-		   		code.write(r.content)
+                   		code.write(r.content)
 		except Exception as e:
-			print('downloading err ->', name)
+			print('download err ->', name)
 			pass
 	else:
 		print("file exist")		   
