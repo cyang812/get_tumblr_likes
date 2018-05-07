@@ -21,6 +21,8 @@
 
 - `download_thread.py` 是多线程下载，理论上比 `download.py` 要快，因此第三步可以用 `download_thread.py` 下载
 
+- `download_process.py` 也是并发下载，理论上比 `download_thread.py` 要快，因此第三步也可以用 `download_process.py` 下载
+
 # 三、其他
 
 - 由于众所周知的原因，tumblr 的资源地址是不能直接下载的，因此需要设置代理。测试时使用 ssr 代理本地连接，因此 `download.py` 中有 `PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } `，如果是在可直接访问 tumblr 的 VPS 上运行，可对代码做如下修改。

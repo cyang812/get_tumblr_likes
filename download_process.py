@@ -1,9 +1,11 @@
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import urllib
-import requests
 import time
+import os
+import urllib.request
+import requests
+from multiprocessing import Process, Queue, Pool
 
 url_filename = 'url_list.txt'
 
@@ -30,7 +32,7 @@ def get_filename(url):
 	name = url.split("/")[-1].split("?")[0]
 	return name    
 
-def download(url):
+def download_one(url):
 
 	name = get_filename(url)
 
@@ -39,9 +41,9 @@ def download(url):
 		try:
 			r = requests.get(url,proxies=PROXIES) # use proxy
 			print('downloading ->',name)
-			
+
 			with open(name, "wb") as code:
-				code.write(r.content)
+		   		code.write(r.content)
 		except Exception as e:
 			print('downloading err ->', name)
 			pass
@@ -57,13 +59,19 @@ def chdir():
 		os.mkdir(target_folder)
 	os.chdir(target_folder)
 
-if __name__ == "__main__":
+def download(imgs, processes=10):
+    """ 并发下载所有图片 """
+    start_time = time.time()
+    pool = Pool(processes)
+    for img in imgs:
+        pool.apply_async(download_one, (img, ))
 
-	url_list = get_url()
+    pool.close()
+    pool.join()
+    end_time = time.time()
+    print('下载完毕,用时:%s秒' % (end_time - start_time))
+
+if __name__ == '__main__':
+	url = get_url()
 	chdir()
-	start_time = time.time()
-
-	for i in range(0,len(url_list)):
-		download(url_list[i])
-	end_time = time.time()
-	print('下载完毕,用时:%s秒' % (end_time - start_time))
+	download(url)
