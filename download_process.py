@@ -5,7 +5,7 @@ import time
 import os
 import urllib.request
 import requests
-from multiprocessing import Process, Queue, Pool
+from multiprocessing import Process, Queue, Pool, freeze_support
 
 url_filename = 'url_list.txt'
 
@@ -61,17 +61,28 @@ def chdir():
 
 def download(imgs, processes=10):
     """ 并发下载所有图片 """
-    start_time = time.time()
+    # start_time = time.time()
     pool = Pool(processes)
     for img in imgs:
         pool.apply_async(download_one, (img, ))
 
     pool.close()
     pool.join()
-    end_time = time.time()
-    print('下载完毕,用时:%s秒' % (end_time - start_time))
+    # end_time = time.time()
+    # print('下载完毕,用时:%s秒' % (end_time - start_time))
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
+def main():
+	# 解决使用 pyinstaller 打包程序后，多进程错误
+	freeze_support()
+
 	url = get_url()
 	chdir()
+	
+	start_time = time.time()
 	download(url)
+	end_time = time.time()
+	print('下载完毕,用时:%s秒' % (end_time - start_time))
+
+if __name__ == '__main__':
+	main()	
