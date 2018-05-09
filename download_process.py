@@ -74,7 +74,7 @@ def download(imgs, processes=10):
 # if __name__ == '__main__':
 def main():
 	# 解决使用 pyinstaller 打包程序后，多进程错误
-	freeze_support()
+	# freeze_support()
 
 	url = get_url()
 	chdir()
