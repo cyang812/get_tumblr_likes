@@ -57,8 +57,9 @@ def chdir():
 		os.mkdir(target_folder)
 	os.chdir(target_folder)
 
-if __name__ == "__main__":
-
+# if __name__ == "__main__":
+def main():
+	print('#3 download main()')
 	url_list = get_url()
 	chdir()
 	start_time = time.time()
@@ -67,3 +68,6 @@ if __name__ == "__main__":
 		download(url_list[i])
 	end_time = time.time()
 	print('下载完毕,用时:%s秒' % (end_time - start_time))
+
+if __name__ == '__main__':
+	main()	

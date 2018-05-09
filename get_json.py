@@ -70,8 +70,9 @@ def new_oauth(yaml_path):
 	print("oauth succ!\n")
 	return tokens
 
-if __name__ == '__main__':
-
+# if __name__ == '__main__':
+def main():
+	print('#1 get_json main()')
 	yaml_path = os.path.expanduser('~') + '/.tumblr'
 	print(yaml_path)
 
@@ -132,5 +133,9 @@ if __name__ == '__main__':
 			print('error',data)
 
 		offset += 20  
-		like_json.write(u'\n');
+		like_json.write(u'\n'); # json 文件分割符
 
+	like_json.close()	
+
+if __name__ == '__main__':
+	main()
