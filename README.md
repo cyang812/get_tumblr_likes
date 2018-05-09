@@ -14,7 +14,7 @@
 - or
 	- `run.exe`
 
-## release V1.0
+## [release V1.0](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.0)
 - 首先，你需要通过 tumblr API 来获取账户喜欢内容。这个过程是需要通过 OAuth 认证的，具体可参看[这个网页](https://www.tumblr.com/docs/en/api/v2#auth). 具体到这个程序里，就是程序在运行时会给出一个链接，复制该链接到浏览器，点击允许后，网页会自动跳转到一个新的地址，再将这个地址复制，粘贴到程序里，之后便可以通过认证。这个认证只需要执行一次，认证文件便会保存在本地，之后就可以不用在执行认证了。
 
 - 得到认证后,将 consumer_key 和 consumer_secret 填到 `get_json.py` ，之后通过 'python get_json.py' 来获取资源内容，也可以通过[这个网页](https://api.tumblr.com/console/calls/user/likes#)来查询，结果会通过 json 的形式返回

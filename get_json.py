@@ -11,12 +11,12 @@ import urllib.parse
 PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
 # PROXIES = {}
 
-consumer_key = ''
-consumer_secret = ''
+# consumer_key = ''
+# consumer_secret = ''
 
 like_json = open("likes.json",'w',encoding='utf-8')
 
-def new_oauth(yaml_path):
+def new_oauth(yaml_path, consumer_key, consumer_secret):
 
 	print('Retrieve consumer key and consumer secret from http://www.tumblr.com/oauth/apps')
 
@@ -35,7 +35,9 @@ def new_oauth(yaml_path):
 	full_authorize_url = oauth_session.authorization_url(authorize_url)
 
 	# Redirect to authentication page
+	print('# 用你的浏览器打开这个网站 点击同意')
 	print('\nPlease go here and authorize:\n{}'.format(full_authorize_url))
+	print('# 等待网页自动跳转 复制新网址粘贴到这里')
 	redirect_response = input('Allow then paste the full redirect URL here:')
 	print(redirect_response)
 
@@ -77,8 +79,11 @@ def main():
 	print(yaml_path)
 
 	if not os.path.exists(yaml_path):
-		print("add a new oauth")
-		tokens = new_oauth(yaml_path)
+		print('This is the first authentication, so plese input info')
+		# print("add a new oauth")
+		consumer_key = input('plese input consumer_key :')
+		consumer_secret = input('plese input consumer_secret :')
+		tokens = new_oauth(yaml_path, consumer_key, consumer_secret)
 	else:
 	    yaml_file = open(yaml_path, "r")
 	    tokens = yaml.safe_load(yaml_file)
