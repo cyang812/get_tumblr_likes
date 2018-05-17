@@ -75,7 +75,8 @@ def new_oauth(yaml_path, consumer_key, consumer_secret):
 # if __name__ == '__main__':
 def main():
 	print('#1 get_json main()')
-	yaml_path = os.path.expanduser('~') + '/.tumblr'
+	# yaml_path = os.path.expanduser('~') + '/.tumblr'
+	yaml_path = 'tumblr.cfg'  # 用于登陆的配置文件，首次登陆时验证并创建
 	print(yaml_path)
 
 	if not os.path.exists(yaml_path):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import get_json 
 import json_parse 
 import download 
@@ -14,3 +15,5 @@ if __name__ == '__main__':
 	json_parse.main()
 	# download.main()		# 单进程
 	download_process.main() # 多进程
+
+	os.system("pause")
