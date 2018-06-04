@@ -73,16 +73,20 @@ def get_content(json_data):
 	except Exception as e:
 		print("error")
 
+	return item_len	
+
 # if __name__ == "__main__":
 def main():
 	print('#2 json_parse main()')
 	json_lists = open_json_file()
 
+	item_len = 0
 	for i in range(0, len(json_lists)):
 		json_data = json.loads(json_lists[i])
-		get_content(json_data)
+		item_len += get_content(json_data)
 
 	url_list.close()	
+	print("item total = ", item_len)
 		
 if __name__ == "__main__":
 	main()

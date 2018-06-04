@@ -115,14 +115,32 @@ def main():
 	else:
 	    print('error',data)
 
-	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=20&offset={0}'
+	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=1'
+	liked_timestamp = 0
 
-	# loop_cnt = int(like_item/20) + 1
-	# print('loop_cnt = ',loop_cnt)
-	offset = 0
-	# for i in range(0,loop_cnt):
+	resp = requests.get(raw_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
+	print(resp)
+
+	try:
+		data = resp.json()
+	except ValueError:
+		data = {'meta': { 'status': 500, 'msg': 'Server Error'}, 'response': {"error": "Malformed JSON or HTML was returned."}}
+
+	if 200 <= data['meta']['status'] <= 399:
+		res_item_len = len(data['response']['liked_posts'])
+		print("res_item_len = ",res_item_len)
+		liked_timestamp = data['response']['liked_posts'][0]['liked_timestamp']
+		print("liked_timestamp =",liked_timestamp)
+		json.dump(data, like_json)
+		like_json.write(u'\n'); # json 文件分割符
+	else:
+		print('error',data)
+
+	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=10&before={0}'		
+
+	offset = res_item_len
 	while offset<like_item:
-		likes_url = raw_url.format(offset)
+		likes_url = raw_url.format(liked_timestamp)
 
 		resp = requests.get(likes_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
 		print(resp)
@@ -137,7 +155,12 @@ def main():
 			# print(data['response']['user']['likes'])
 			res_item_len = len(data['response']['liked_posts'])
 			print("res_item_len = ",res_item_len)
-			json.dump(data, like_json)
+			if res_item_len:
+				liked_timestamp = data['response']['liked_posts'][res_item_len-1]['liked_timestamp']
+				print("liked_timestamp =",liked_timestamp)
+				json.dump(data, like_json)
+			else:
+				break	
 		else:
 			print('error',data)
 
