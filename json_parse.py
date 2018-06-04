@@ -9,6 +9,7 @@ url_list = open("url_list.txt",'w',encoding='utf-8')
 
 def open_json_file():
 	with open(JSON_FIlE,'r',encoding="utf-8") as load_f:
+		'''
 		raw_jsons = load_f.read()
 		raw_jsons = raw_jsons.split("\n")
 		# print(raw_jsons)
@@ -18,6 +19,10 @@ def open_json_file():
 		    json_list = raw_json.lstrip().rstrip()
 		    if json_list:
 		        json_lists.append(json_list)
+		'''
+
+		json_lists = list()
+		json_lists = load_f.readlines()
 
 		print('list_len = ',len(json_lists))	        
 		return json_lists
@@ -57,13 +62,13 @@ def get_video(json_data,item_len):
 def get_content(json_data):
 
 	item_len = len(json_data['response']['liked_posts'])
-	print("item_len = ",item_len)
+	print("item_len = ", item_len)
 
 	try:
 	    # print( len(load_dict['response']['liked_posts'][i]['photos']) ) #[0]['original_size']['url'] ) #pic
 	    # print( load_dict['response']['liked_posts'][i]['video_url'] ) #video
-	   	get_pic(json_data,item_len)
-	   	get_video(json_data,item_len)
+	   	get_pic(json_data, item_len)
+	   	get_video(json_data, item_len)
 
 	except Exception as e:
 		print("error")
