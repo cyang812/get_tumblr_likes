@@ -1,0 +1,43 @@
+# ABSTRACT
+
+This project could download videos and pictures that you likes in your tumblr account.
+This is based on tumblr API and need authentication, so you need to get an oauth key by register an application. You can check it on [that](https://www.tumblr.com/docs/en/api/v2#auth).
+
+![This is a demo](img/download_file.png)
+
+# USAGE
+
+## release V1.1(https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.1)
+- normal
+	- `pip install -r requirements.txt`
+	- `python run.py`	
+- or
+	- `run.exe`
+
+
+## [release V1.0](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.0)
+- First, you need get the authentication for using tumblr api, look at [that](https://www.tumblr.com/docs/en/api/v2#auth). You just need to get the authentication once when you first run this code.
+
+- When you register an application, you will get the consumer_key and the consumer_secret. You should fill it in `get_json.py`, then run 'python get_json.py' to collect your likes item. Also you can view this on [that](https://api.tumblr.com/console/calls/user/likes#).
+
+- The returned data is json type and renamed by `likes.json`, than you need run `python json_parse.py`. This could parse the `likes.json` file and pick up the raw url about pictures and videos and write those in a `url_list.txt` file.
+  ![](img/json_parse.png)
+
+- Last, run `python download.py` to download pictures, videos in a directory named download.
+  ![](img/downloading.png)
+
+- Simplely：1 `python get_json.py` 2 `python json_parse.py` 3 `download.py`
+
+- `download_thread.py` and `download_process.py` also could be used to download and replace 'download.py'. Actually it's faster than 'download.py'.
+
+# NOTE
+
+- Because of some reasons, you can't access tumblr in some region. So maybe you need a proxy like me. But if you are lucky, you need to change code as follows in `download.py`.
+    ```python
+    # PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
+	PROXIES = {}
+    ```
+
+- This project is to download your likes pictures and videos in your account, which mean you should have an oauth key by register an application. If you just want to download pictures or videos in someone's account, you should try [this](https://github.com/dixudx/tumblr-crawler). 
+
+- `run.exe` is pass test in win7 64bit and win10 64bit os. Using proxy by local 1080 port and download by mutil thread.

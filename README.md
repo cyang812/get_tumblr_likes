@@ -1,18 +1,21 @@
+[English Version](README_en.md)
+
 # 一、介绍
 
-本项目使用 python 编写，分析 tumblr 账户中喜欢的内容，给出资源链接，并下载。
+本项目使用 python 编写，分析 tumblr 账户中喜欢的内容，给出资源链接，并下载。这个过程需要通过 OAuth 认证，具体可参看[这个网页](https://www.tumblr.com/docs/en/api/v2#auth)
 其中 `likes.json` 是一份 tumblr 返回的喜欢数据的 json 示例，提取里面图片和视频的资源地址后下载，下载的内容如下图。
 
 ![](img/download_file.png)
 
 # 二、使用方法
 
-## release V1.1
+## [release V1.1](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.1)
 - normal
 	- `pip install -r requirements.txt`
 	- `python run.py`	
 - or
 	- `run.exe`
+
 
 ## [release V1.0](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.0)
 - 首先，你需要通过 tumblr API 来获取账户喜欢内容。这个过程是需要通过 OAuth 认证的，具体可参看[这个网页](https://www.tumblr.com/docs/en/api/v2#auth). 具体到这个程序里，就是程序在运行时会给出一个链接，复制该链接到浏览器，点击允许后，网页会自动跳转到一个新的地址，再将这个地址复制，粘贴到程序里，之后便可以通过认证。这个认证只需要执行一次，认证文件便会保存在本地，之后就可以不用在执行认证了。
