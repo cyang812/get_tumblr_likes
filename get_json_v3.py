@@ -30,10 +30,17 @@ def main():
 		data = {'meta': { 'status': 500, 'msg': 'Server Error'}, 'response': {"error": "Malformed JSON or HTML was returned."}}
 
 	if 200 <= data['meta']['status'] <= 399:
-	    like_item = data['response']['blog']['likes']
-	    print('like_item = ',like_item)
+		# print(data)
+		if data['response']['blog']['share_likes']:
+			like_item = data['response']['blog']['likes']
+			print('like_item = ',like_item)
+		else:
+			print('[error]: blog likes is not share')	
+			return
 	else:
-	    print('error',data)
+		print('error',data)
+		print('[error]: blog is not exist')
+		return
 
 	# -2 get first user likes
 	likes_url = 'https://api.tumblr.com/v2/blog/{0}.tumblr.com/likes?limit=2&api_key={1}'
