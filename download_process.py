@@ -53,11 +53,11 @@ def download_one(url):
 def chdir():
 
 	current_folder = os.getcwd()
-	print(current_folder)
 	target_folder = os.path.join(current_folder, 'download')
 	if not os.path.isdir(target_folder):
 		os.mkdir(target_folder)
 	os.chdir(target_folder)
+	# print(target_folder)
 
 def download(imgs, processes=10):
     """ 并发下载所有图片 """
@@ -75,7 +75,8 @@ def download(imgs, processes=10):
 def main():
 	# 解决使用 pyinstaller 打包程序后，多进程错误
 	# freeze_support()
-
+	print('#3 download_process main()')
+	print('downloading...............')
 	url = get_url()
 	chdir()
 	

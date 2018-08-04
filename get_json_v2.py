@@ -36,8 +36,8 @@ def new_oauth(yaml_path, consumer_key, consumer_secret):
 
 	# Redirect to authentication page
 	print('# 用你的浏览器打开这个网站 点击同意')
-	print('\nPlease go here and authorize:\n{}'.format(full_authorize_url))
-	print('# 等待网页自动跳转 复制新网址粘贴到这里')
+	print('Please go here and authorize:\n{}'.format(full_authorize_url))
+	print('\n# 等待网页自动跳转 复制新网址粘贴到这里')
 	redirect_response = input('Allow then paste the full redirect URL here:')
 	print(redirect_response)
 
@@ -97,6 +97,7 @@ def main():
         	tokens['oauth_token_secret']
         )
 
+	# get blog info
 	info_url = 'https://api.tumblr.com/v2/user/info'
 
 	resp = requests.get(info_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
@@ -115,6 +116,7 @@ def main():
 	else:
 	    print('error',data)
 
+	# get first blog like
 	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=1'
 	liked_timestamp = 0
 
@@ -136,6 +138,7 @@ def main():
 	else:
 		print('error',data)
 
+	# get all blog like
 	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=10&before={0}'		
 
 	offset = res_item_len

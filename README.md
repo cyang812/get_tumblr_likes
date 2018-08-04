@@ -9,7 +9,7 @@
 
 # 二、使用方法
 
-## [release V1.1](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.1)
+## 自动运行
 - normal
 	- `pip install -r requirements.txt`
 	- `python run.py`	
@@ -17,15 +17,23 @@
 	- `run.exe`
 
 
-## [release V1.0](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.0)
-- 首先，你需要通过 tumblr API 来获取账户喜欢内容。这个过程是需要通过 OAuth 认证的，具体可参看[这个网页](https://www.tumblr.com/docs/en/api/v2#auth). 具体到这个程序里，就是程序在运行时会给出一个链接，复制该链接到浏览器，点击允许后，网页会自动跳转到一个新的地址，再将这个地址复制，粘贴到程序里，之后便可以通过认证。这个认证只需要执行一次，认证文件便会保存在本地，之后就可以不用在执行认证了。
+## 分布运行
 
-- 得到认证后,将 consumer_key 和 consumer_secret 填到 `get_json.py` ，之后通过 `python get_json.py` 来获取资源内容，也可以通过[这个网页](https://api.tumblr.com/console/calls/user/likes#)来查询，结果会通过 json 的形式返回
+### if 你有 api_key
+- 1、首先，你需要通过 tumblr API 来获取账户喜欢内容。这个过程是需要通过 OAuth 认证的，具体可参看[这个网页](https://www.tumblr.com/docs/en/api/v2#auth). 具体到这个程序里，就是程序在运行时会给出一个链接，复制该链接到浏览器，点击允许后，网页会自动跳转到一个新的地址，再将这个地址复制，粘贴到程序里，之后便可以通过认证。这个认证只需要执行一次，认证文件便会保存在本地，之后就可以不用在执行认证了。
 
-- 返回的 json 数据，命名为`likes.json`，执行命令 `python json_parse.py`，这可以从 json 文件中提取出资源的真正链接，并存为 `url_list.txt` 文件
+- 2、得到认证后,通过 `python get_json_v2.py` 来获取资源内容，也可以通过[这个网页](https://api.tumblr.com/console/calls/user/likes#)来查询，结果会通过 json 的形式返回。
+
+### else 设置里开启喜欢页可见[临时]
+	
+- 1、`get_json_v3.py` 填入你的 blog_id，需要设置分享你的喜欢[临时]，可在下载结束后关闭。
+
+r### end
+
+- 3、返回的 json 数据，命名为`likes.json`，执行命令 `python json_parse.py`，这可以从 json 文件中提取出资源的真正链接，并存为 `url_list.txt` 文件
   ![](img/json_parse.png)
 
-- 执行 `python download.py`，之后资源文件就会挨个下载到 download 文件夹下
+- 4、执行 `python download.py`，之后资源文件就会挨个下载到 download 文件夹下
   ![](img/downloading.png)
 
 - 简单来说就是把大象装冰箱的三步：1 `python get_json.py` 2 `python json_parse.py` 3 `download.py`

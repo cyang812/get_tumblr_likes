@@ -6,3 +6,5 @@ download/
 /tumblr2.cfg
 /log-get_json.txt
 /log-json_parse.txt
+__pycache__/
+download-1/

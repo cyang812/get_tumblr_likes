@@ -7,7 +7,7 @@ This is based on tumblr API and need authentication, so you need to get an oauth
 
 # USAGE
 
-## [release V1.1](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.1)
+## automation
 - normal
 	- `pip install -r requirements.txt`
 	- `python run.py`	
@@ -15,7 +15,7 @@ This is based on tumblr API and need authentication, so you need to get an oauth
 	- `run.exe`
 
 
-## [release V1.0](https://github.com/cyang812/get_tumblr_likes/releases/tag/V1.0)
+## step by step
 - First, you need to get the authentication for using tumblr api, look at [that](https://www.tumblr.com/docs/en/api/v2#auth). You just need to get the authentication once when you first run this code.
 
 - When you register an application, you will get the consumer_key and the consumer_secret. Then fill it in `get_json.py`, and run `python get_json.py` to collect your likes items. By the way, you can also view the result on [this](https://api.tumblr.com/console/calls/user/likes#).
