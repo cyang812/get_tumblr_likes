@@ -2,8 +2,7 @@
 
 import os
 import get_json_v3 
-import json_parse 
-import download 
+import json_parse
 import download_process
 from multiprocessing import freeze_support
 

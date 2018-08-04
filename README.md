@@ -24,11 +24,12 @@
 
 - 2、得到认证后,通过 `python get_json_v2.py` 来获取资源内容，也可以通过[这个网页](https://api.tumblr.com/console/calls/user/likes#)来查询，结果会通过 json 的形式返回。
 
-### else 设置里开启喜欢页可见[临时]
+### elif 喜欢页可见
 	
 - 1、`get_json_v3.py` 填入你的 blog_id，需要设置分享你的喜欢[临时]，可在下载结束后关闭。
 
-r### end
+- 2、NULL
+### end
 
 - 3、返回的 json 数据，命名为`likes.json`，执行命令 `python json_parse.py`，这可以从 json 文件中提取出资源的真正链接，并存为 `url_list.txt` 文件
   ![](img/json_parse.png)
