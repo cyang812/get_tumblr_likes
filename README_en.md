@@ -22,11 +22,11 @@ This is based on tumblr API and need authentication, so you need to get an oauth
 
 - When you register an application, you will get the consumer_key and the consumer_secret. Then fill it in `get_json.py`, and run `python get_json_v2.py` to collect your likes items. By the way, you can also view the result on [this](https://api.tumblr.com/console/calls/user/likes#).
 
-#elif turn on the ·Share posts you like· button
+### elif turn on the ·Share posts you like· button
 
 - `python get_json_v3.py` you can turn off share after download complete if you want.
 
-#endif
+### endif
 
 - The return data is json type and named `likes.json`, then you need run `python json_parse.py`. This could parse the `likes.json` file and pick up the raw url about pictures and videos and write those in a `url_list.txt` file.
   ![](img/json_parse.png)
@@ -35,7 +35,7 @@ This is based on tumblr API and need authentication, so you need to get an oauth
 - Last, run `python download.py` to download pictures, videos in a directory named download.
   ![](img/downloading.png)
 
-- Simplely：1 `python get_json.py` 2 `python json_parse.py` 3 `download.py`
+- Simplely：1 `python get_json_v2.py` 2 `python json_parse.py` 3 `download.py`
 
 - `download_thread.py` and `download_process.py` also could be used to download and replace `download.py`. Actually it's faster than `download.py`.
 
