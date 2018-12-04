@@ -37,7 +37,7 @@
 - 4、执行 `python download.py`，之后资源文件就会挨个下载到 download 文件夹下
   ![](img/downloading.png)
 
-- 简单来说就是把大象装冰箱的三步：1 `python get_json.py` 2 `python json_parse.py` 3 `download.py`
+- 简单来说就是把大象装冰箱的三步：1 `python get_json_v2.py` 2 `python json_parse.py` 3 `download.py`
 
 - `download_thread.py` 是多线程下载，理论上比 `download.py` 要快，因此第三步可以用 `download_thread.py` 下载
 
