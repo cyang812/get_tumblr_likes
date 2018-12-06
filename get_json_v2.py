@@ -7,6 +7,7 @@ import yaml
 import os
 import json
 import urllib.parse
+from datetime import datetime
 
 PROXIES = { "http": "http://127.0.0.1:1080", "https": "https://127.0.0.1:1080" } 
 # PROXIES = {}
@@ -142,8 +143,12 @@ def main():
 	raw_url = 'https://api.tumblr.com/v2/user/likes?limit=10&before={0}'		
 
 	offset = res_item_len
+	last_write_like_time = 0
 	while offset<like_item:
 		likes_url = raw_url.format(liked_timestamp)
+		print(likes_url)
+
+		flag = 0
 
 		resp = requests.get(likes_url, allow_redirects=False, auth=oauth, proxies=PROXIES)
 		print(resp)
@@ -154,14 +159,20 @@ def main():
 			data = {'meta': { 'status': 500, 'msg': 'Server Error'}, 'response': {"error": "Malformed JSON or HTML was returned."}}
 
 		if 200 <= data['meta']['status'] <= 399:
-			# print(data['response'])
-			# print(data['response']['user']['likes'])
 			res_item_len = len(data['response']['liked_posts'])
 			print("res_item_len = ",res_item_len)
 			if res_item_len:
-				liked_timestamp = data['response']['liked_posts'][res_item_len-1]['liked_timestamp']
-				print("liked_timestamp =",liked_timestamp)
-				json.dump(data, like_json)
+				current_timestamp = data['response']['liked_posts'][res_item_len-1]['liked_timestamp']
+				if current_timestamp < liked_timestamp and liked_timestamp - current_timestamp < 60*60*24*30:
+					liked_timestamp = current_timestamp
+				else:
+					liked_timestamp -= 60*60*24
+				print('current_timestamp: ', datetime.utcfromtimestamp(current_timestamp).strftime('%Y-%m-%d %H:%M:%S'))
+				print('liked_timestamp:   ', datetime.utcfromtimestamp(liked_timestamp).strftime('%Y-%m-%d %H:%M:%S'))
+				if last_write_like_time != current_timestamp:
+					last_write_like_time = current_timestamp
+					json.dump(data, like_json)
+					flag = 1
 			else:
 				break	
 		else:
@@ -169,7 +180,9 @@ def main():
 
 		# offset += 20 	
 		offset += res_item_len
-		like_json.write(u'\n'); # json 文件分割符
+		print(offset, '/', like_item)
+		if flag > 0:
+			like_json.write(u'\n'); # json 文件分割符
 
 	like_json.close()	
 
